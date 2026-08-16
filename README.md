@@ -1,6 +1,6 @@
-# Hill Escapades Pro
+# Matatu Culture
 
-A hand-crafted 2D hill-racing game built in **Godot 4.6**, focused on pure gameplay feel, elegant design, and secure local data handling.
+A hand-crafted 3D Nairobi matatu driving game built in **Godot 4.6**, focused on authentic gameplay feel, vehicle progression, and secure local data handling.
 
 No AI features. No cloud dependencies. Just you and the hills.
 
