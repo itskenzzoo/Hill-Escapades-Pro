@@ -4,6 +4,9 @@ signal score_changed()
 signal nitro_changed()
 signal fuel_changed()
 signal speed_changed(speed: float)
+signal fare_collected(amount: int)
+signal passenger_boarded()
+signal manyanga_paid(amount: int)
 @warning_ignore("unused_signal")
 signal game_over()
 
@@ -17,6 +20,11 @@ var score_coins := 0 : set = _on_set_score_coins
 var score_jump := 0 : set = _on_set_score_jump
 var score_backflip := 0 : set = _on_set_score_backflip
 var score_medals := 0 : set = _on_set_score_medals
+var score_fares_collected := 0
+var score_passengers := 0
+var current_vehicle_tier := 1 # 1: 14-seater HiAce, 2: Nganya Matatu, 3: Big Bus
+var manyanga_cut_per_spot := 50 # Paid instantly on the spot per pick-up stage
+var conductor_shift_payout := 0 # Paid at end of shift
 var nitro := 5.0 : set = _on_set_nitro
 var fuel := 100.0 : set = _on_set_fuel
 
@@ -53,6 +61,7 @@ func save_config() -> void:
 		"upgrade_suspension": upgrade_suspension,
 		"upgrade_tires": upgrade_tires,
 		"upgrade_nitro": upgrade_nitro,
+		"vehicle_tier": current_vehicle_tier,
 		"ck": _compute_checksum(),
 	}
 	file.store_string(JSON.stringify(config))
@@ -88,6 +97,7 @@ func load_config() -> void:
 	var saved_suspension  := clampi(int(config.get("upgrade_suspension", 1)), 1, MAX_UPGRADE_LEVEL)
 	var saved_tires       := clampi(int(config.get("upgrade_tires",      1)), 1, MAX_UPGRADE_LEVEL)
 	var saved_nitro       := clampi(int(config.get("upgrade_nitro",      1)), 1, MAX_UPGRADE_LEVEL)
+	var saved_tier        := clampi(int(config.get("vehicle_tier",       1)), 1, 3)
 
 	# Verify checksum when present; reset progression silently if it fails.
 	if config.has("ck"):
@@ -98,11 +108,12 @@ func load_config() -> void:
 			push_warning("Globals: config integrity check failed — progression reset.")
 			return  # Keep all progression vars at their initialised defaults
 
-	coins             = saved_coins
-	upgrade_engine    = saved_engine
+	coins              = saved_coins
+	upgrade_engine     = saved_engine
 	upgrade_suspension = saved_suspension
-	upgrade_tires     = saved_tires
-	upgrade_nitro     = saved_nitro
+	upgrade_tires      = saved_tires
+	upgrade_nitro      = saved_nitro
+	current_vehicle_tier = saved_tier
 
 
 func new_game() -> void:
@@ -111,9 +122,12 @@ func new_game() -> void:
 	score_jump = 0
 	score_backflip = 0
 	score_medals = 0
+	score_fares_collected = 0
+	score_passengers = 0
+	conductor_shift_payout = 0
 	nitro = 5.0
 	fuel = 100.0
-	get_tree().change_scene_to_file("res://scenes/game.tscn")
+	get_tree().change_scene_to_file("res://scenes/game_3d.tscn")
 
 
 func _on_set_score_distance(value : int) -> void:

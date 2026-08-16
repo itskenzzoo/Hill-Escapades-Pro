@@ -67,8 +67,7 @@ func _on_fuel_changed():
 
 func _on_speed_changed(speed: float) -> void:
 	if _speed_label:
-		# Rough in-game scale: ~1200 px/s ≈ top speed. Display as a friendly integer.
-		_speed_label.text = "%d" % int(speed / 10.0)
+		_speed_label.text = "%d KM/H" % int(speed)
 
 func _on_car_jump_scored(score: int) -> void:
 	if not is_instance_valid(_msg_jump_score) or not _msg_jump_score.is_running():

@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://game_3d_main_scene"]
+
+[ext_resource type="Script" path="res://scenes/game_3d.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://hud_tscn_gui_01" path="res://gui/hud.tscn" id="2_hud"]
+
+[node name="Game3D" type="Node3D"]
+script = ExtResource("1_script")
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
