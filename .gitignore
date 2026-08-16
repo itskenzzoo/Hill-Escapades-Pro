@@ -1,0 +1,20 @@
+# Godot 4+ specific ignores
+.godot/
+android/
+
+# Godot export files
+*.import
+
+# OS junk
+.DS_Store
+Thumbs.db
+
+# Compiled GDNative / GDExtension binaries — large, platform-specific, rebuilt from source
+# These include libgodot-cpp static libs (73-80 MB each) that exceed GitHub's push limits.
+addons/dbase/godotsqlite/bin/libgodot-cpp.*
+
+# VS Code local settings that contain machine-specific paths
+.vscode/
+
+# Firebase auto-generated
+firebase.json

@@ -1,0 +1,356 @@
+[gd_scene load_steps=12 format=3 uid="uid://c8e24x5opdiqn"]
+
+[ext_resource type="Script" path="res://gui/main.gd" id="1_pqdiy"]
+[ext_resource type="PackedScene" uid="uid://ojsfmtb70yhp" path="res://scenes/terrain.tscn" id="1_ynw5l"]
+[ext_resource type="PackedScene" uid="uid://dkiv07k4mxnfw" path="res://scenes/car.tscn" id="2_ggs86"]
+[ext_resource type="PackedScene" uid="uid://c1lrcqch251yx" path="res://scenes/parallax.tscn" id="2_o1kn4"]
+[ext_resource type="Texture2D" uid="uid://cjr4c7elih2n2" path="res://assets/title.svg" id="3_l3i2j"]
+[ext_resource type="Theme" uid="uid://iglcheijqvq" path="res://default_theme.tres" id="6_tqrn5"]
+[ext_resource type="PackedScene" uid="uid://nr14eso61en7" path="res://gui/settings.tscn" id="7_nry05"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_iw07j"]
+
+[sub_resource type="Animation" id="Animation_cmu8r"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/TabContainer/MainMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/ColorRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_7d0wv"]
+resource_name = "intro"
+length = 5.0
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/TabContainer/MainMenu:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1.5),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/ColorRect:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/ColorRect:modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_lrref"]
+_data = {
+"RESET": SubResource("Animation_cmu8r"),
+"intro": SubResource("Animation_7d0wv")
+}
+
+[node name="GuiMain" type="Node2D"]
+visible = false
+script = ExtResource("1_pqdiy")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
+position = Vector2(0, 300)
+zoom = Vector2(0.5, 0.5)
+
+[node name="Parallax" parent="." instance=ExtResource("2_o1kn4")]
+position = Vector2(1151, 0)
+
+[node name="Terrain" parent="." instance=ExtResource("1_ynw5l")]
+unique_name_in_owner = true
+lacunarity = 5.0
+scale_y = 100.0
+slope = 0.0
+generate_items = false
+dif_init = 1.0
+
+[node name="Car" parent="." instance=ExtResource("2_ggs86")]
+unique_name_in_owner = true
+position = Vector2(-600, 0)
+AUTO_ADVANCE = true
+ENABLE_USER = false
+MUTE = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer"]
+unique_name_in_owner = true
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_styles/panel = SubResource("StyleBoxEmpty_iw07j")
+current_tab = 0
+tabs_visible = false
+
+[node name="MainMenu" type="VBoxContainer" parent="CanvasLayer/TabContainer"]
+layout_mode = 2
+theme = ExtResource("6_tqrn5")
+theme_override_constants/separation = 0
+metadata/_tab_index = 0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TabContainer/MainMenu"]
+custom_minimum_size = Vector2(0, 320)
+layout_mode = 2
+texture = ExtResource("3_l3i2j")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="VBoxContainer" type="HBoxContainer" parent="CanvasLayer/TabContainer/MainMenu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_constants/separation = 15
+
+[node name="PlayButton" type="Button" parent="CanvasLayer/TabContainer/MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "PLAY"
+
+[node name="ShopButton" type="Button" parent="CanvasLayer/TabContainer/MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "GARAGE"
+
+[node name="LeaderboardButton" type="Button" parent="CanvasLayer/TabContainer/MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "LEADERBOARD"
+
+[node name="SettingsButton" type="Button" parent="CanvasLayer/TabContainer/MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "SETTINGS"
+
+[node name="ExitButton" type="Button" parent="CanvasLayer/TabContainer/MainMenu/VBoxContainer"]
+unique_name_in_owner = true
+auto_translate_mode = 1
+custom_minimum_size = Vector2(180, 0)
+layout_mode = 2
+text = "EXIT"
+
+[node name="Settings" parent="CanvasLayer/TabContainer" instance=ExtResource("7_nry05")]
+visible = false
+layout_mode = 2
+metadata/_tab_index = 1
+
+[node name="Leaderboard" type="VBoxContainer" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("6_tqrn5")
+theme_override_constants/separation = 20
+alignment = 1
+metadata/_tab_index = 2
+
+[node name="Title" type="Label" parent="CanvasLayer/TabContainer/Leaderboard"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "TOP 10 HIGH SCORES"
+horizontal_alignment = 1
+
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/TabContainer/Leaderboard"]
+custom_minimum_size = Vector2(500, 300)
+layout_mode = 2
+size_flags_horizontal = 4
+
+[node name="ScoreList" type="VBoxContainer" parent="CanvasLayer/TabContainer/Leaderboard/ScrollContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="LeaderboardBack" type="Button" parent="CanvasLayer/TabContainer/Leaderboard"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BACK"
+
+[node name="Shop" type="VBoxContainer" parent="CanvasLayer/TabContainer"]
+visible = false
+layout_mode = 2
+theme = ExtResource("6_tqrn5")
+theme_override_constants/separation = 20
+alignment = 1
+metadata/_tab_index = 3
+
+[node name="ShopTitle" type="Label" parent="CanvasLayer/TabContainer/Shop"]
+layout_mode = 2
+theme_type_variation = &"HeaderLarge"
+text = "GARAGE UPGRADES"
+horizontal_alignment = 1
+
+[node name="CoinsContainer" type="HBoxContainer" parent="CanvasLayer/TabContainer/Shop"]
+layout_mode = 2
+alignment = 1
+
+[node name="CoinsLabel" type="Label" parent="CanvasLayer/TabContainer/Shop/CoinsContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "COINS: 0"
+horizontal_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/TabContainer/Shop"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/h_separation = 30
+theme_override_constants/v_separation = 20
+columns = 2
+
+[node name="EngineCard" type="VBoxContainer" parent="CanvasLayer/TabContainer/Shop/GridContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+alignment = 1
+
+[node name="EngineLabel" type="Label" parent="CanvasLayer/TabContainer/Shop/GridContainer/EngineCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "ENGINE (LVL 1)"
+horizontal_alignment = 1
+
+[node name="EngineBuy" type="Button" parent="CanvasLayer/TabContainer/Shop/GridContainer/EngineCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UPGRADE: 100"
+
+[node name="SuspensionCard" type="VBoxContainer" parent="CanvasLayer/TabContainer/Shop/GridContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+alignment = 1
+
+[node name="SuspensionLabel" type="Label" parent="CanvasLayer/TabContainer/Shop/GridContainer/SuspensionCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "SUSPENSION (LVL 1)"
+horizontal_alignment = 1
+
+[node name="SuspensionBuy" type="Button" parent="CanvasLayer/TabContainer/Shop/GridContainer/SuspensionCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UPGRADE: 100"
+
+[node name="TiresCard" type="VBoxContainer" parent="CanvasLayer/TabContainer/Shop/GridContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+alignment = 1
+
+[node name="TiresLabel" type="Label" parent="CanvasLayer/TabContainer/Shop/GridContainer/TiresCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "TIRES (LVL 1)"
+horizontal_alignment = 1
+
+[node name="TiresBuy" type="Button" parent="CanvasLayer/TabContainer/Shop/GridContainer/TiresCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UPGRADE: 100"
+
+[node name="NitroCard" type="VBoxContainer" parent="CanvasLayer/TabContainer/Shop/GridContainer"]
+custom_minimum_size = Vector2(250, 100)
+layout_mode = 2
+alignment = 1
+
+[node name="NitroLabel" type="Label" parent="CanvasLayer/TabContainer/Shop/GridContainer/NitroCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "NITRO CAPACITY (LVL 1)"
+horizontal_alignment = 1
+
+[node name="NitroBuy" type="Button" parent="CanvasLayer/TabContainer/Shop/GridContainer/NitroCard"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "UPGRADE: 100"
+
+[node name="ShopBack" type="Button" parent="CanvasLayer/TabContainer/Shop"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+text = "BACK"
+
+[node name="ColorRect" type="ColorRect" parent="CanvasLayer"]
+visible = false
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 1)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_lrref")
+}
+autoplay = "intro"
+
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMenu/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMenu/VBoxContainer/ShopButton" to="." method="_on_shop_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMenu/VBoxContainer/LeaderboardButton" to="." method="_on_leaderboard_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMenu/VBoxContainer/SettingsButton" to="." method="_on_settings_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMenu/VBoxContainer/ExitButton" to="." method="_on_exit_button_pressed"]
+[connection signal="back_pressed" from="CanvasLayer/TabContainer/Settings" to="." method="_on_settings_back_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Leaderboard/LeaderboardBack" to="." method="_on_leaderboard_back_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Shop/EngineBuy" to="." method="_on_engine_buy_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Shop/SuspensionBuy" to="." method="_on_suspension_buy_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Shop/TiresBuy" to="." method="_on_tires_buy_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Shop/NitroBuy" to="." method="_on_nitro_buy_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/Shop/ShopBack" to="." method="_on_shop_back_pressed"]
