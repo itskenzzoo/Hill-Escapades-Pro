@@ -90,14 +90,5 @@ mesh = SubResource("BoxMesh_curb")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="RoadSection1/CurbRight"]
 shape = SubResource("BoxShape3D_curb")
 
-[node name="RoadSectionSloped" type="StaticBody3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 0.984808, 0.173648, 0, -0.173648, 0.984808, 0, 17.36, -285)
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="RoadSectionSloped"]
-mesh = SubResource("BoxMesh_road_main")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RoadSectionSloped"]
-shape = SubResource("BoxShape3D_road_main")
-
 [node name="SpawnPoint" type="Marker3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.0, 0)
